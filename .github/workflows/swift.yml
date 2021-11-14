@@ -70,10 +70,10 @@ jobs:
           return result.data
         result-encoding: json
         
-    - name: Something else 1
+    - name: Set release asset url
+      id: releases
       run: |
-        echo "${{fromJson(steps.get_release.outputs.result).upload_url}}"
-        # 
+        echo "::set-output name=asset_url::${{fromJson(steps.get_release.outputs.result).upload_url}}"
 
     - uses: actions/checkout@v2
 
@@ -85,7 +85,7 @@ jobs:
         
     - name: Something else
       run: |
-        echo "${{steps.get_release.outputs.upload_url}}"
+        echo "${{ steps.releases.outputs.asset_url }}"
         ls HelloVapor/.build/
         
     
