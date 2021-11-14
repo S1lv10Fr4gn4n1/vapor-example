@@ -23,7 +23,7 @@ jobs:
           github.rest.repos.createRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            tag_name: "${GITHUB_JOB}v",
+            tag_name: "${env.GITHUB_JOB}v",
           });
         
     - uses: actions/checkout@v2
@@ -31,7 +31,8 @@ jobs:
     - name: Build for Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
-        ls
+        cd HelloVapor
+        swift build
       
     - name: Upload release assets for linux
       if: matrix.os == 'ubuntu-latest'
@@ -41,9 +42,11 @@ jobs:
         asset_path: target/release/dmenv
         asset_name: dmenv-linux
 
-#     - name: Build for Macosx
-#       if: matrix.os == 'macos-latest'
-#       run: swift build -v
+    - name: Build for Macosx
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd HelloVapor
+        swift build
     
 #     - name: Upload release assets for macos
 #       if: matrix.os == 'macos-latest'
