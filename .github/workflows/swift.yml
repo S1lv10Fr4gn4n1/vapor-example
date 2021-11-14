@@ -14,6 +14,7 @@ jobs:
       run: |
         echo "GITHUB_JOB $GITHUB_JOB"
         echo "GITHUB_RUN_NUMBER $GITHUB_RUN_NUMBER"
+        echo "JOB_NUMBER=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
         
         
     - name: "Create GitHub Release"
@@ -21,7 +22,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const JOB_NUMBER = ${{ env.GITHUB_RUN_NUMBER }}
+          const JOB_NUMBER = ${{ env.JOB_NUMBER }}
           console.log(`Hello ${JOB_NUMBER}`)
           github.rest.repos.createRelease({
             owner: context.repo.owner,
