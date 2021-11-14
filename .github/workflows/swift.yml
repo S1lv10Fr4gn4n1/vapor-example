@@ -9,9 +9,11 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    container: swiftlang/swift:nightly-5.5
+    if: matrix.os == 'ubuntu-latest'
     strategy:
        matrix:
-          os: ["swift:5.4", macos-latest]
+          os: [ubuntu-latest, macos-latest]
     
     steps: 
     - name: "Create GitHub Release"
@@ -22,7 +24,7 @@ jobs:
           github.rest.repos.createRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            tag_name: "$GITHUB_JOBv",
+            tag_name: "${GITHUB_JOB}v",
           });
         
     - uses: actions/checkout@v2
