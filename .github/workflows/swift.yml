@@ -71,7 +71,7 @@ jobs:
 
     - name: Something else 1
       run: |
-        echo "${{steps.get_release.outputs}}"
+        echo "${{steps.get_release.outputs.upload_url}}"
 
     - uses: actions/checkout@v2
 
