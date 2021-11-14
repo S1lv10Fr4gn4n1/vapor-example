@@ -77,7 +77,9 @@ jobs:
         
     - name: Something else
       run: |
-        echo "${{steps.get_release.outputs}}"
+        echo "${{steps.get_release.outputs.upload_url}}"
+        
+    
         
 #     - name: Upload release assets for Macos
 #       uses: actions/upload-release-asset@v1.0.1
