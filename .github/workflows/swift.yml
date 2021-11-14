@@ -25,7 +25,7 @@ jobs:
           console.log(`Hello ${JOB_NUMBER1}`)
           console.log('Hello ${JOB_NUMBER1}')
           
-          const tag_name = `${JOB_NUMBER}v`
+          const tag_name = `${JOB_NUMBER1}v`
           console.log(`Hello tag_name ${tag_name}`) 
           
 #         github.rest.repos.createRelease({
