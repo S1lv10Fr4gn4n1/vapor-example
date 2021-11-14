@@ -10,6 +10,12 @@ jobs:
   releases:
     runs-on: ubuntu-latest
     steps: 
+    - name: Check ENV
+      run: |
+        echo "GITHUB_JOB $GITHUB_JOB"
+        echo "GITHUB_RUN_NUMBER $GITHUB_RUN_NUMBER"
+        
+        
     - name: "Create GitHub Release"
       id: create_release
       uses: actions/github-script@v5
@@ -23,13 +29,7 @@ jobs:
 
 
   build_macosx:
-    runs-on: macos-latest
-#     runs-on: ${{ matrix.os }}
-#     strategy:
-#        matrix:
-#           os: [ubuntu-latest, macos-latest]
-#           swift: ["5.3"]
-    
+    runs-on: macos-latest    
     steps: 
     - name: "Get latest GitHub Release"
       id: get_release
@@ -55,21 +55,6 @@ jobs:
 #         asset_path: target/release/dmenv
 #         asset_name: dmenv-linux
 
-#     - name: Build for Macosx
-#       if: matrix.os == 'macos-latest'
-#       run: |
-#         cd HelloVapor
-#         swift build
-    
-#     - name: Upload release assets for macos
-#       if: matrix.os == 'macos-latest'
-#       uses: actions/upload-release-asset@v1.0.1
-#       with:
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: target/release/dmenv
-#         asset_name: dmenv-linux
-
-  
   
   build_linux:
     runs-on: ubuntu-latest
