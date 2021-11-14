@@ -66,10 +66,13 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
+          return result
+        result-encoding: json
+        
 
     - name: Something else 1
       run: |
-        echo "${{steps.get_release.outputs.upload_url}}"
+        echo "${{steps.get_release.outputs}}"
 
     - uses: actions/checkout@v2
 
