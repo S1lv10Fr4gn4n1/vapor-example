@@ -16,16 +16,14 @@ jobs:
     steps: 
     - name: "Create GitHub Release"
       id: create_release
-      uses: actions/create-release@v1.0.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: actions/github-script@v5
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }} (macosx)
-        body: |
-          Automatic release
-        draft: false
-        prerelease: false
+        script: |
+          github.rest.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: "$GITHUB_JOBv",
+          });
         
     - uses: actions/checkout@v2
     
