@@ -65,7 +65,8 @@ jobs:
           const result = await github.rest.repos.getLatestRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
-          });
+          })
+          console.log(result)
           return result
         result-encoding: json
         
