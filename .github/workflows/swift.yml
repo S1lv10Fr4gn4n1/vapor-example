@@ -28,28 +28,44 @@ jobs:
             tag_name: tag_name
           });    
 
-#   build_macosx:
-#     needs: releases
-#     runs-on: macos-latest    
-#     steps: 
-#     - uses: fwal/setup-swift@v1 # 5.4.3
+  build_macosx:
+    needs: releases
+    runs-on: macos-latest    
+    steps: 
+    - uses: fwal/setup-swift@v1 # 5.4.3
     
-#     - name: "Get latest GitHub Release"
-#       id: get_release
-#       uses: actions/github-script@v5
-#       with:
-#         script: |
-#           github.rest.repos.getLatestRelease({
-#             owner: context.repo.owner,
-#             repo: context.repo.repo,
-#           });
-         
-#     - uses: actions/checkout@v2
+    - name: "Get latest GitHub Release"
+      id: get_release
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const result = await github.rest.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          })
+          console.log(result.data)
+          return result.data
+        result-encoding: json
+          
+    - name: Set release asset url
+      id: releases
+      run: |
+        echo "::set-output name=asset_url::${{fromJson(steps.get_release.outputs.result).upload_url}}"
+
+    - uses: actions/checkout@v2
     
-#     - name: Build for Macos
-#       run: |
-#         cd HelloVapor
-#         swift build
+    - name: Build for Macos
+      run: |
+        cd HelloVapor
+        swift build
+
+    - name: Upload release assets for Macosx
+      uses: actions/upload-release-asset@v1.0.1
+      with:
+        upload_url: ${{ steps.releases.outputs.asset_url }}
+        asset_path: HelloVapor/.build/debug/Run
+        asset_name: HelloVapor-Macosx.zip
+        asset_content_type: application/zip
 
   
   build_linux:
@@ -82,10 +98,10 @@ jobs:
         cd HelloVapor
         swift build
       
-    - name: Debuging
-      run: |
-        echo "${{ steps.releases.outputs.asset_url }}"
-        ls HelloVapor/.build/
+#     - name: Debuging
+#       run: |
+#         echo "${{ steps.releases.outputs.asset_url }}"
+#         ls HelloVapor/.build/
         
     - name: Upload release assets for Linux
       uses: actions/upload-release-asset@v1.0.1
