@@ -20,20 +20,12 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const JOB_NUMBER1 = ${{ env.JOB_NUMBER }}
-          
-          console.log(`Hello ${JOB_NUMBER1}`)
-          console.log('Hello ${JOB_NUMBER1}')
-          
-          const tag_name = `${JOB_NUMBER1}v`
-          console.log(`Hello tag_name ${tag_name}`) 
-          
+          console.log(`Creating version ${tag_name}`) 
           github.rest.repos.createRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
             tag_name: tag_name
           });    
-
 
   build_macosx:
     needs: releases
@@ -58,6 +50,10 @@ jobs:
         cd HelloVapor
         swift build
       
+    - name: Build for Macos
+      run: |
+        echo "${{fromJson(steps.get_release.outputs.result)}}"
+        
 #     - name: Upload release assets for Macos
 #       uses: actions/upload-release-asset@v1.0.1
 #       with:
