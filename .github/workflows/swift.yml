@@ -22,8 +22,10 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const JOB_NUMBER = ${{ env.JOB_NUMBER }}
-          console.log(`Hello ${JOB_NUMBER}`)
+          const JOB_NUMBER1 = ${{ env.JOB_NUMBER }}
+          console.log(`Hello ${JOB_NUMBER1}`)
+          console.log('Hello ${JOB_NUMBER1}')
+          console.log(`Hello ${env.JOB_NUMBER}`)
           github.rest.repos.createRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
