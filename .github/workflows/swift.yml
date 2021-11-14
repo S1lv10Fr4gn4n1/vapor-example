@@ -19,13 +19,19 @@ jobs:
     - name: "Create GitHub Release"
       id: create_release
       uses: actions/github-script@v5
+      env:
+        JOB_NUMBER: $GITHUB_RUN_NUMBER
       with:
         script: |
-          github.rest.repos.createRelease({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tag_name: `${GITHUB_RUN_NUMBER}v`
-          });    
+          console.log(`1 Hello JOB_NUMBER ${JOB_NUMBER} GITHUB_RUN_NUMBER ${GITHUB_RUN_NUMBER}`)
+          console.log('2 Hello JOB_NUMBER ${JOB_NUMBER} GITHUB_RUN_NUMBER ${GITHUB_RUN_NUMBER}')
+          console.log("3 Hello JOB_NUMBER ${JOB_NUMBER} GITHUB_RUN_NUMBER ${GITHUB_RUN_NUMBER}")
+          
+#         github.rest.repos.createRelease({
+#           owner: context.repo.owner,
+#           repo: context.repo.repo,
+#           tag_name: ${JOB_NUMBER}v`
+#         });    
 
 
   build_macosx:
