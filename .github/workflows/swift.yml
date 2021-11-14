@@ -20,12 +20,13 @@ jobs:
       id: create_release
       uses: actions/github-script@v5
       env:
-        JOB_NUMBER: ${GITHUB_RUN_NUMBER}
         FIRST_NAME: Mona
         LAST_NAME: Octocat
+        JOB_NUMBER: ${GITHUB_RUN_NUMBER}
       with:
-        script: |          
-          console.log('Hello ${process.env.FIRST_NAME} ${process.env.LAST_NAME} ${process.env.JOB_NUMBER}')
+        script: |
+          const { FIRST_NAME, LAST_NAME, JOB_NUMBER } = process.env
+          console.log(`Hello ${FIRST_NAME} ${LAST_NAME} ${JOB_NUMBER}`)
 #           github.rest.repos.createRelease({
 #             owner: context.repo.owner,
 #             repo: context.repo.repo,
