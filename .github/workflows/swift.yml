@@ -9,7 +9,6 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-    container: swiftlang/swift:nightly-5.5
     strategy:
        matrix:
           os: [ubuntu-latest, macos-latest]
