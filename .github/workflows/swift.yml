@@ -23,9 +23,9 @@ jobs:
         JOB_NUMBER: $GITHUB_RUN_NUMBER
       with:
         script: |
-          console.log(`1 Hello JOB_NUMBER ${process.env.JOB_NUMBER} GITHUB_RUN_NUMBER ${GITHUB_RUN_NUMBER}`)
-          console.log('2 Hello JOB_NUMBER ${process.env.JOB_NUMBER} GITHUB_RUN_NUMBER ${GITHUB_RUN_NUMBER}')
-          console.log("3 Hello JOB_NUMBER ${process.env.JOB_NUMBER} GITHUB_RUN_NUMBER ${GITHUB_RUN_NUMBER}")
+          console.log(`1 Hello JOB_NUMBER ${process.env.JOB_NUMBER} `)
+          console.log('2 Hello JOB_NUMBER ${process.env.JOB_NUMBER} ')
+          console.log("3 Hello JOB_NUMBER ${process.env.JOB_NUMBER} ")
           
 #         github.rest.repos.createRelease({
 #           owner: context.repo.owner,
