@@ -23,7 +23,7 @@ jobs:
         JOB_NUMBER: $GITHUB_RUN_NUMBER
       with:
         script: |
-          console.log('Hello JOB_NUMBER ${process.env.JOB_NUMBER}  ${{ GITHUB_RUN_NUMBER }}')
+          console.log('Hello JOB_NUMBER ${{ process.env.JOB_NUMBER} }')
           
           
 #         github.rest.repos.createRelease({
