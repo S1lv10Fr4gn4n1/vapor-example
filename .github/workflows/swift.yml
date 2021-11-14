@@ -10,7 +10,6 @@ jobs:
   release:
     runs-on: ${{ matrix.os }}
     container: swiftlang/swift:nightly-5.5
-    if: matrix.os == 'ubuntu-latest'
     strategy:
        matrix:
           os: [ubuntu-latest, macos-latest]
