@@ -1,0 +1,76 @@
+name: Swift
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+       matrix:
+          os: [ubuntu-latest, macos-latest]
+    
+    steps: 
+    - name: "Create GitHub Release"
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }} (macosx)
+        body: |
+          Automatic release
+        draft: false
+        prerelease: false
+        
+    - uses: actions/checkout@v2
+    
+    - name: Build for Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: swift build -v
+      
+    - name: Upload release assets for linux
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-release-asset@v1.0.1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/release/dmenv
+        asset_name: dmenv-linux
+
+    - name: Build for Macosx
+      if: matrix.os == 'macos-latest'
+      run: swift build -v
+    
+    - name: Upload release assets for macos
+      if: matrix.os == 'macos-latest'
+      uses: actions/upload-release-asset@v1.0.1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/release/dmenv
+        asset_name: dmenv-linux
+
+  
+  
+#   build_linux:
+#     runs-on: swiftlang/swift:nightly-5.5-bionic
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: Build
+#       run: swift build -v
+    
+#     - name: Create Release
+#       id: create_release
+#       uses: actions/create-release@v1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       with:
+#         tag_name: ${{ github.ref }}
+#         release_name: Release ${{ github.ref }} (linux)
+#         body: |
+#           Automatic release
+#         draft: false
+#         prerelease: false
