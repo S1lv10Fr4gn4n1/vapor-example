@@ -20,6 +20,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
+          const tag_name = `${JOB_NUMBER1}v`
           console.log(`Creating version ${tag_name}`) 
           github.rest.repos.createRelease({
             owner: context.repo.owner,
