@@ -7,13 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  release:
-    runs-on: ${{ matrix.os }}
-    strategy:
-       matrix:
-          os: [ubuntu-latest, macos-latest]
-          swift: ["5.3"]
-    
+  releases:
+    runs-on: ubuntu-latest
     steps: 
     - name: "Create GitHub Release"
       id: create_release
@@ -23,30 +18,48 @@ jobs:
           github.rest.repos.createRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            tag_name: "${env.GITHUB_JOB}v",
+            tag_name: 'v1'
+          });    
+
+
+  build_macosx:
+    runs-on: macos-latest
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#        matrix:
+#           os: [ubuntu-latest, macos-latest]
+#           swift: ["5.3"]
+    
+    steps: 
+    - name: "Get latest GitHub Release"
+      id: get_release
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
           });
-        
+         
     - uses: actions/checkout@v2
     
-    - name: Build for Linux
-      if: matrix.os == 'ubuntu-latest'
+    - name: Build for Macos
       run: |
         cd HelloVapor
         swift build
       
-    - name: Upload release assets for linux
-      if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-release-asset@v1.0.1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/release/dmenv
-        asset_name: dmenv-linux
+#     - name: Upload release assets for Macos
+#       uses: actions/upload-release-asset@v1.0.1
+#       with:
+#         upload_url: ${{ steps.get_release.outputs.upload_url }}
+#         asset_path: target/release/dmenv
+#         asset_name: dmenv-linux
 
-    - name: Build for Macosx
-      if: matrix.os == 'macos-latest'
-      run: |
-        cd HelloVapor
-        swift build
+#     - name: Build for Macosx
+#       if: matrix.os == 'macos-latest'
+#       run: |
+#         cd HelloVapor
+#         swift build
     
 #     - name: Upload release assets for macos
 #       if: matrix.os == 'macos-latest'
@@ -58,22 +71,23 @@ jobs:
 
   
   
-#   build_linux:
-#     runs-on: swiftlang/swift:nightly-5.5-bionic
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Build
-#       run: swift build -v
-    
-#     - name: Create Release
-#       id: create_release
-#       uses: actions/create-release@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         tag_name: ${{ github.ref }}
-#         release_name: Release ${{ github.ref }} (linux)
-#         body: |
-#           Automatic release
-#         draft: false
-#         prerelease: false
+  build_linux:
+    runs-on: ubuntu-latest
+    container: swiftlang/swift:nightly-5.5-bionic
+    steps:
+    - name: "Get latest GitHub Release"
+      id: get_release
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+
+    - uses: actions/checkout@v2
+
+    - name: Build for Linux
+      run: |
+        cd HelloVapor
+        swift build
