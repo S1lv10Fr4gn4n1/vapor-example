@@ -24,7 +24,7 @@ jobs:
           github.rest.repos.createRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            tag_name: 'v_${GITHUB_RUN_NUMBER}'
+            tag_name: `${GITHUB_RUN_NUMBER}v`
           });    
 
 
