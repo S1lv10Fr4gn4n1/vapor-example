@@ -62,13 +62,13 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          return github.rest.repos.getLatestRelease({
+          const result = await github.rest.repos.getLatestRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
+          return result
         result-encoding: json
         
-
     - name: Something else 1
       run: |
         echo "${{steps.get_release.outputs.upload_url}}"
