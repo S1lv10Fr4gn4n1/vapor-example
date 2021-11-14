@@ -92,4 +92,5 @@ jobs:
       with:
         upload_url: ${{ steps.releases.outputs.asset_url }}
         asset_path: HelloVapor/.build/debug/Run
-        asset_name: HelloVapor-Linux
+        asset_name: HelloVapor-Linux.zip
+        asset_content_type: application/zip
