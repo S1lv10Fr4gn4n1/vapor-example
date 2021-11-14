@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
        matrix:
-          os: [swiftlang/swift:nightly-5.5-bionic, macos-latest]
+          os: ["swift:5.4", macos-latest]
     
     steps: 
     - name: "Create GitHub Release"
@@ -27,7 +27,7 @@ jobs:
         draft: false
         prerelease: false
         
-#     - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
     
     - name: Build for Linux
       if: matrix.os == 'ubuntu-latest'
