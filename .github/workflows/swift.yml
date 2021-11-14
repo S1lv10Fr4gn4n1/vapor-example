@@ -37,9 +37,7 @@ jobs:
     needs: releases
     runs-on: macos-latest    
     steps: 
-    - uses: fwal/setup-swift@v1
-      with:
-        swift-version: "5.5"
+    - uses: fwal/setup-swift@v1 # 5.4.3
     
     - name: "Get latest GitHub Release"
       id: get_release
